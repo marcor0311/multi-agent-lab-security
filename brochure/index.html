@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Alpha Site · Arquitectura científica y seguridad</title>
+<style>
+:root{--ink:#1c2d37;--muted:#536774;--line:#cbd5d9;--paper:#f4f6f7;--blue:#58798c}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.page{max-width:1380px;margin:auto;padding:28px 4vw 40px}.top{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:13px}.brand,.tag,.eyebrow{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--blue)}.brand{font-weight:700}.tag{border:1px solid #b7c5cb;padding:7px 10px}.hero{display:flex;align-items:end;justify-content:space-between;gap:25px;padding:24px 0 18px}h1{font-size:clamp(34px,5vw,62px);line-height:.98;letter-spacing:-.045em;font-weight:560;margin:0}h1 span{color:var(--blue)}.intro{max-width:470px;color:var(--muted);margin:0 0 3px;font-size:15px}.visual-frame,.plan-frame{background:#edf1ef;border:1px solid var(--line);padding:10px}.visual-frame img{display:block;width:100%;height:auto}.plan-frame{margin-top:22px}.plan-frame svg{display:block;width:100%;height:auto}.caption{display:flex;justify-content:space-between;color:var(--muted);font-size:10px;letter-spacing:.06em;padding:9px 3px 0}.stats{display:grid;grid-template-columns:repeat(5,1fr);border-block:1px solid #bdc9ce;margin-top:18px}.stat{padding:12px 12px 13px 0}.stat b{display:block;font-size:22px;font-weight:550}.stat span{font-size:11px;color:var(--muted)}.lower{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;margin-top:20px}.lower h2{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--blue);margin:0 0 9px}.components{display:grid;grid-template-columns:repeat(3,1fr);gap:6px 15px}.item{border-top:1px solid #d3dcdf;padding-top:6px;font-size:11px}.item b{font-size:12px;display:block}.item span{color:var(--muted)}.note{background:#e8edef;border-left:3px solid var(--blue);padding:13px 16px;font-size:11px;color:#405764}.note strong{color:var(--ink)}footer{display:flex;justify-content:space-between;gap:14px;border-top:1px solid var(--line);padding-top:10px;margin-top:20px;color:var(--muted);font-size:9px;letter-spacing:.04em}@media(max-width:760px){.page{padding:18px 12px 28px}.hero{display:block}.intro{margin-top:12px}.visual-frame,.plan-frame{padding:3px}.caption{font-size:8px}.stats{grid-template-columns:repeat(3,1fr)}.lower{grid-template-columns:1fr;gap:18px}.components{grid-template-columns:1fr 1fr}footer{display:block}footer span{display:block;margin-top:5px}}
+.plan-key{display:flex;flex-wrap:wrap;gap:9px 18px;padding:12px 3px 3px;font-size:10px;color:var(--muted)}.plan-key i{display:inline-block;width:11px;height:11px;margin-right:5px;vertical-align:middle;border-radius:2px}</style>
+<link rel="stylesheet" href="security-plan.css">
+</head>
+<body><main class="page">
+<header class="top"><div class="brand">Alpha Site · Campus de investigación</div><div class="tag">Arquitectura modular · Concepto 02A</div></header>
+<section class="hero"><h1>Alpha Site<br><span>Plano del campus</span></h1><p class="intro">Campus de investigación de 240 × 150 m, con ocho edificios, 42 estacionamientos y acceso controlado al sur.</p></section>
+<section class="visual-frame" aria-label="Nueva visualización conceptual del campus con arquitectura modular y perímetro protegido"><img src="alpha_site_security_modular_v02a.png" alt="Campus científico blanco al anochecer, con fachadas geométricas, amplios ventanales sin interiores visibles, muro perimetral blanco, plaza decorativa, parqueo con pasillo central y acceso moderno protegido"><div class="caption"><span>VISTA DEL CAMPUS · CONCEPTO 02A</span><span>REFERENCIA ARQUITECTÓNICA · NO ES UN LEVANTAMIENTO</span></div></section>
+<section class="plan-frame" aria-label="Plano 2D V09 actualizado según el concepto arquitectónico 02A"><svg id="plan" viewBox="-8 -8 256 166" role="img" aria-label="Plano V09 con muro blanco, plaza decorativa, parqueo accesible y estación integrada, norte arriba"></svg><div class="plan-key" aria-label="Leyenda del plano"><span><i style="background:#fcfdfb;border:1px solid #607e89"></i>Edificios y muro blanco</span><span><i style="background:#637078"></i>Vialidad y parqueo</span><span><i style="background:#719da7"></i>Láminas de agua</span><span><i style="background:#71846c"></i>Seto uniforme</span><span><i style="background:#e4e5e0"></i>Recorridos peatonales</span></div><div class="caption"><span>PLANO V09 · NORTE ARRIBA</span><span>PLAZA · PARQUEO · MURO BLANCO · ACCESOS</span></div></section>
+<section class="stats"><div class="stat"><b>8</b><span>edificios</span></div><div class="stat"><b>42</b><span>plazas de estacionamiento</span></div><div class="stat"><b>2</b><span>carriles de acceso</span></div><div class="stat"><b>1</b><span>plaza cívica central</span></div><div class="stat"><b>240 × 150 m</b><span>sitio conceptual</span></div></section>
+<section class="lower"><div><h2>Componentes del campus</h2><div class="components"><div class="item"><b>A01 · Administración e I+D</b><span>49 × 37 m · 3 niveles</span></div><div class="item"><b>L01–L03 · Laboratorios</b><span>18 × 39 m cada uno</span></div><div class="item"><b>L04 · Laboratorio de apoyo</b><span>65 × 12 m</span></div><div class="item"><b>H01 · Pabellón científico</b><span>33 × 50 m · 2 niveles</span></div><div class="item"><b>P01 · Prototipado</b><span>45 × 21 m</span></div><div class="item"><b>S01 · Estación de seguridad</b><span>16 × 15 m · integrada en la entrada</span></div></div></div><div><h2>Seguridad y paisaje</h2><div class="note"><strong>Perímetro:</strong> muro blanco y franja interior despejada.<br><strong>Entrada:</strong> dos carriles y portal peatonal junto a S01.<br><strong>Circulación:</strong> anillo vial, parqueo con pasillo central y rutas peatonales.<br><strong>Plaza:</strong> agua, bancos y jardineras fuera del paso.<br><strong>Edificios:</strong> fachadas blancas, lamas y ventanales con privacidad.</div></div></section>
+<section class="security" id="seguridad-inicial" aria-labelledby="security-title">
+  <h2 id="security-title">Plan de seguridad inicial</h2>
+  <div class="security-stats"><div><b>24</b><span>cámaras</span></div><div><b>3</b><span>guardias por turno + relevos</span></div><div><b>4</b><span>sectores de alarma en el muro</span></div><div><b>0</b><span>torres en la primera etapa</span></div></div>
+
+  <section class="security-panel" aria-labelledby="security-cameras-title">
+    <div class="security-panel-head"><h3 id="security-cameras-title">1. Cámaras y alarmas</h3><p>12 en el perímetro · 3 en la entrada · 2 en parqueo · 7 en edificios. Toca una cámara para ver su función.</p></div>
+    <div class="security-tools" aria-label="Capas del plano"><label><input type="checkbox" data-security-layer="perimeter" checked> Perímetro</label><label><input type="checkbox" data-security-layer="access" checked> Entrada</label><label><input type="checkbox" data-security-layer="campus" checked> Parqueo y edificios</label><label><input type="checkbox" data-security-layer="sectors" checked> Dirección de vista</label><label><input type="checkbox" data-security-layer="sensors" checked> Alarmas del muro</label></div>
+    <p class="security-mobile-hint">Desliza el plano para ver todos los puntos.</p>
+    <div class="security-map-layout"><div class="security-map-scroll"><svg class="security-map" id="security-camera-map" role="group" aria-label="Ubicación propuesta de 24 cámaras y detección perimetral"></svg></div><aside class="security-camera-detail" id="security-camera-detail" aria-live="polite" aria-atomic="true"></aside></div>
+    <div class="security-legend"><span><i style="background:#245b59"></i>C01–C12 · perímetro</span><span><i style="background:#ae6921"></i>C13–C15 · entrada</span><span><i style="background:#476eaa"></i>C16–C24 · parqueo y edificios</span><span><i class="line"></i>Alarma del muro</span></div>
+    <p class="security-map-note">Ubicaciones preliminares. Los conos muestran dirección, no cobertura garantizada. Ajustar altura y lente con pruebas de día y noche.</p>
+  </section>
+
+  <section class="security-panel" aria-labelledby="security-patrol-title">
+    <div class="security-panel-head"><h3 id="security-patrol-title">2. Guardias y patrullaje</h3><p>Tres robots K9 y dos drones patrullan desde S01, según el gemelo 3D. Personas en S01 autorizan accesos y respuesta; los agentes solo observan y reportan.</p></div>
+    <p class="security-mobile-hint">Desliza el plano para ver todo el recorrido.</p>
+    <div class="security-map-scroll"><svg class="security-map" id="security-patrol-map" role="img" aria-label="Rutas de robots K9-1 a K9-3, drones D-1 y D-2, bases en S01 y posible salida de emergencia"></svg></div>
+    <div class="security-legend"><span><i style="background:#e0892f"></i>K9-1 · anillo ≈ 598 m</span><span><i style="background:#c9772a"></i>K9-2 · franja del muro ≈ 779 m</span><span><i style="background:#f0a14c"></i>K9-3 · red peatonal S01 ↔ L04</span><span><i style="background:#2b8993"></i>D-1 · vuelo perimetral ≈ 700 m</span><span><i style="background:#5fb7c1"></i>D-2 · inspección de A01, H01, P01, L01–L03, PK01</span><span><i style="background:#ae6921"></i>Q1–Q4 · puntos de revisión</span><span><i style="background:#775e9c"></i>E? · posible salida de emergencia, por validar</span></div>
+    <div class="security-roles"><div><b>1 · Operador en S01</b>Cámaras, alarmas y radio.</div><div><b>1 · Guardia en la entrada</b>Personas, vehículos y visitas.</div><div><b>1 · Guardia de respuesta</b>Verifica en sitio las alertas de K9 y drones.</div></div>
+    <p class="security-map-note">Cobertura 24/7 con personal de relevo. El ingreso y la consola permanecen atendidos; los K9 cargan en S01 y D-2 alterna misiones y carga en la cubierta.</p>
+  </section>
+
+  <section class="security-summary" aria-labelledby="security-equipment-title">
+    <h3 id="security-equipment-title">3. Qué instalar</h3>
+    <div class="security-table-wrap"><table class="security-table"><thead><tr><th scope="col">Área</th><th scope="col">Plan inicial</th></tr></thead><tbody>
+      <tr><th scope="row">Perímetro</th><td>Muro continuo, franja despejada, iluminación y alarmas en 4 sectores.</td></tr>
+      <tr><th scope="row">Accesos</th><td>Credenciales, intercomunicador, registro de visitas y sensores en puertas exteriores.</td></tr>
+      <tr><th scope="row">Centro S01</th><td>Grabador de 32 canales, consola, radios, red dedicada y batería de respaldo.</td></tr>
+      <tr><th scope="row">Torres</th><td>No inicialmente. Usar postes y fachadas; reconsiderar si quedan puntos ciegos comprobados.</td></tr>
+      <tr><th scope="row">Emergencias</th><td>Validar una salida independiente y probar evacuación, cortes de energía y comunicaciones.</td></tr>
+    </tbody></table></div>
+  </section>
+
+  <section class="security-summary" aria-labelledby="security-phases-title"><h3 id="security-phases-title">4. Orden de trabajo</h3><ol class="security-phases"><li><b>Validar y cotizar</b>Medir el terreno y probar vistas de cámaras.</li><li><b>Instalar y operar</b>Equipos, guardias y pruebas de funcionamiento.</li><li><b>Agregar IA</b>Filtrar alertas y preparar bitácoras; personas autorizan accesos y respuesta.</li></ol></section>
+  <noscript><p>Activa JavaScript para ver los planos.</p></noscript>
+</section>
+<footer><span>ALPHA SITE · FOLLETO DE IMPLANTACIÓN Y ARQUITECTURA</span><span>Coordinación conceptual V09 / 02A · sitio y topografía pendientes de levantamiento y verificación</span></footer>
+</main>
+<script src="../masterplan-data.js"></script>
+<script src="../masterplan-renderer.js"></script>
+<script>renderAlphaPlan(document.querySelector("#plan"));</script>
+<script src="security-plan.js"></script></body></html>

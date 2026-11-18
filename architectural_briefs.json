@@ -1,0 +1,168 @@
+{
+  "project": "Alpha Site — guía arquitectónica para simulación 3D",
+  "version": "03",
+  "status": "conceptual_visualization",
+  "source_masterplan": "masterplan.json",
+  "units": "m",
+  "purpose": "Definir una dirección arquitectónica coherente para imágenes de referencia y modelado 3D; no es documentación constructiva.",
+  "assumptions": [
+    "Las coordenadas, huellas y número de niveles se toman de V08 como base conceptual, no como levantamiento verificado.",
+    "Las alturas, espesores, orientación de fachadas y detalles no presentes en V08 son parámetros visuales preliminares.",
+    "Las fachadas principales se orientan hacia accesos y rutas indicados por el masterplan; confirmar orientación y contexto al integrar el modelo."
+  ],
+  "coordinate_convention": {
+    "origin": "southwest corner of conceptual site",
+    "x": "east",
+    "y": "north",
+    "z": "up",
+    "building_footprint_source": "building x,y,width,depth from masterplan.json"
+  },
+  "campus_style": {
+    "name": "Sierra high-tech research campus",
+    "design_intent": "Campus de investigación de alta tecnología en un paisaje montañoso templado tipo Yosemite: arquitectura blanca, vidrio y metal de precisión, rodeada de pinos y bosque de coníferas. El ambiente debe sentirse fresco, alpino y científico, nunca tropical.",
+    "climate_response": [
+      "Usar bosque de pinos, coníferas y especies templadas como contexto visual, con claros que mantengan legibles edificios y recorridos.",
+      "Diseñar fachadas herméticas de alto desempeño, marcos térmicos y vestíbulos protegidos apropiados para clima de montaña.",
+      "Cubiertas planas o de baja pendiente con drenaje y posible manejo de nieve, sin imponer condiciones topográficas no documentadas.",
+      "Mostrar luz fresca de montaña, aire limpio y vegetación de reserva; excluir palmeras, follaje tropical y atmósfera cálida húmeda."
+    ],
+    "palette": {
+      "primary": "crisp white and cool mineral white",
+      "secondary": "pale grey architectural concrete",
+      "accent": "restrained graphite and subtle ice blue",
+      "screen": "white or graphite anodized aluminum",
+      "glazing": "clear low-reflectance cool blue-grey"
+    },
+    "materials": {
+      "walls": ["white high-performance metal panels", "smooth white mineral cladding", "pale architectural concrete"],
+      "sun_shades": ["precision white aluminum fins", "graphite metal screens", "minimal external solar-control systems"],
+      "base": "pale exposed architectural concrete plinth",
+      "roof": "clean flat or low-slope high-performance roof with concealed technical systems"
+    },
+    "shared_rules": [
+      "Use consistent white or graphite frames, crisp reveals, and restrained scientific wayfinding.",
+      "Make secure public entrances legible with a layered arrival sequence, canopy, vestibule, and glazed lobby.",
+      "Use generous clear glazing in public and collaboration areas with high-performance insulated glass; avoid mirror-like curtain walls.",
+      "Express research facilities as contemporary high-tech laboratories with precise modular facades and integrated mechanical systems.",
+      "Show realistic ground contact, parapets, service doors, and screened roof equipment in close views.",
+      "Use people, trees, and furniture only as scale/context cues; do not obscure building geometry.",
+      "Keep interior landscape clean and decorative: maintained lawn panels, crisp path edges, low ornamental planting, and sparse accent trees; avoid wild undergrowth or clutter."
+    ],
+    "perimeter_security": {
+      "fence": "continuous architectural graphite steel mesh or slim vertical-bar security fence following the site perimeter, with controlled vehicle and pedestrian openings only at the main gate",
+      "main_gate": "two clearly separated controlled vehicle lanes with barrier arms, access readers, visitor intercom, discreet bollards, and legible entry/exit arrows",
+      "security_pavilion": "modern high-tech glazed control booth at S01 footprint, with panoramic lane visibility, integrated access-control screens, cameras, and a clean white canopy",
+      "parking_access": "make R03 and R04 visibly connect the loop road to the parking aisle as separate entry and exit driveways; preserve their V08 locations"
+    },
+    "rendering": {
+      "preferred_views": ["three-quarter eye-level exterior", "aerial three-quarter campus view", "front elevation reference"],
+      "lighting": "crisp high-altitude daylight, soft cool morning light or clear mountain overcast",
+      "visual_language": "photorealistic architectural visualization, realistic material scale, clear silhouette, no text overlays",
+      "negative_guidance": ["no tropical plants or palm trees", "no humid tropical atmosphere", "no futuristic fantasy forms", "no excessive mirror glass", "no invented cliffs or terrain not shown in the conceptual site", "no altered footprint proportions"]
+    }
+  },
+  "buildings": [
+    {
+      "id": "A01",
+      "name": "Administration and R&D",
+      "program_character": "public-facing campus headquarters with collaborative research offices",
+      "footprint_source": "masterplan.json",
+      "mass": {"form": "three-storey rectangular bar organized around the supplied internal atrium", "floors": 3, "floor_to_floor_m": 4.0, "approx_roof_height_m": 12.8, "preserve_atrium": true},
+      "facade": {"character": "high-tech research headquarters, crisp and transparent at the entry with precise modular glazing", "base": "pale architectural concrete plinth", "upper": "white high-performance panels with graphite detailing and white solar-control fins", "glazing_ratio_visual": "medium to high", "atrium_expression": "visible planted temperate courtyard with glazed inner elevations"},
+      "roof": "flat concealed roof with screened equipment and discreet parapet",
+      "entrance": {"primary": "secure layered glazed arrival portal facing W01 and the plaza, with visible screening threshold", "secondary": "controlled staff entrance", "canopy": "broad precise white canopy"},
+      "distinctive_features": ["double-height secure lobby", "white precision fins", "visible planted temperate atrium"],
+      "image_prompt": "A01, three-storey high-tech research headquarters in a Yosemite-like pine forest campus, preserve 49 by 37 metre footprint proportions and central 22 by 17 metre atrium, crisp white facade, precise white fins, high-performance glass, pale concrete, secure glazed arrival lobby, temperate planted courtyard, cool clear mountain daylight, photorealistic, no tropical vegetation."
+    },
+    {
+      "id": "L01",
+      "name": "Laboratory 1",
+      "program_character": "single-storey laboratory module",
+      "footprint_source": "masterplan.json",
+      "mass": {"form": "long narrow single-storey laboratory bar", "floors": 1, "floor_to_floor_m": 4.5, "approx_roof_height_m": 5.4},
+      "facade": {"character": "repeatable high-tech laboratory module", "base": "pale architectural concrete plinth", "upper": "white insulated panels with precision graphite joints and clear insulated high windows", "glazing_ratio_visual": "medium"},
+      "roof": "low-slope screened roof with clerestory daylight zones",
+      "entrance": {"primary": "shaded entrance on the long side connected to W10", "service": "separate discreet service door, position conceptual"},
+      "distinctive_features": ["modular facade bays", "external vertical fins at glazed zones"],
+      "image_prompt": "L01, single-storey high-tech research laboratory, preserve 18 by 39 metre proportions, crisp white modular facade panels, pale concrete base, generous precise insulated glazing, clean graphite frames, pine forest reserve setting like Yosemite, cool mountain daylight, no tropical plants."
+    },
+    {
+      "id": "L02",
+      "name": "Laboratory 2",
+      "program_character": "single-storey laboratory module matching L01",
+      "footprint_source": "masterplan.json",
+      "mass": {"form": "long narrow single-storey laboratory bar", "floors": 1, "floor_to_floor_m": 4.5, "approx_roof_height_m": 5.4},
+      "facade": {"character": "same high-tech family and bay rhythm as L01 with subtle module identification", "base": "pale architectural concrete plinth", "upper": "white insulated panels with graphite joints and clear insulated windows", "glazing_ratio_visual": "medium"},
+      "roof": "low-slope screened roof with clerestory daylight zones",
+      "entrance": {"primary": "shaded entrance on the long side connected to W11", "service": "separate discreet service door, position conceptual"},
+      "distinctive_features": ["repeatable modular bays", "coordinated facade with L01 and L03"],
+      "image_prompt": "L02, single-storey high-tech research laboratory, preserve 18 by 39 metre proportions and match L01 and L03, crisp white modular panels, pale concrete, precise insulated glazing and graphite frames, pine forest reserve setting like Yosemite, cool mountain daylight, no tropical plants."
+    },
+    {
+      "id": "L03",
+      "name": "Laboratory 3",
+      "program_character": "single-storey laboratory module matching L01 and L02",
+      "footprint_source": "masterplan.json",
+      "mass": {"form": "long narrow single-storey laboratory bar", "floors": 1, "floor_to_floor_m": 4.5, "approx_roof_height_m": 5.4},
+      "facade": {"character": "same high-tech family and bay rhythm as L01 and L02 with subtle module identification", "base": "pale architectural concrete plinth", "upper": "white insulated panels with graphite joints and clear insulated windows", "glazing_ratio_visual": "medium"},
+      "roof": "low-slope screened roof with clerestory daylight zones",
+      "entrance": {"primary": "shaded entrance on the long side connected to W12", "service": "separate discreet service door, position conceptual"},
+      "distinctive_features": ["repeatable modular bays", "coordinated facade with L01 and L02"],
+      "image_prompt": "L03, single-storey high-tech research laboratory, preserve 18 by 39 metre proportions and match L01 and L02, crisp white modular panels, pale concrete, precise insulated glazing and graphite frames, pine forest reserve setting like Yosemite, cool mountain daylight, no tropical plants."
+    },
+    {
+      "id": "L04",
+      "name": "Support laboratory",
+      "program_character": "technical support, receiving and shared laboratory services",
+      "footprint_source": "masterplan.json",
+      "mass": {"form": "long low single-storey service bar", "floors": 1, "floor_to_floor_m": 4.2, "approx_roof_height_m": 5.2},
+      "facade": {"character": "high-performance shared laboratory services wing, clean and technical", "base": "pale durable architectural concrete", "upper": "white insulated panels with controlled glazing and graphite service details", "glazing_ratio_visual": "medium"},
+      "roof": "low-slope roof with screened service equipment",
+      "entrance": {"primary": "covered staff entrance connected to W09", "service": "conceptual loading/service door on an end elevation; coordinate with vehicle access later"},
+      "distinctive_features": ["large discreet service doors", "simple service signage", "deep entrance canopy"],
+      "image_prompt": "L04, one-storey high-tech research support laboratory, preserve 65 by 12 metre proportions, white insulated technical facade, pale concrete, precision glazing and discreet service doors, pine forest reserve campus like Yosemite, cool mountain light, no tropical vegetation."
+    },
+    {
+      "id": "H01",
+      "name": "Science pavilion",
+      "program_character": "visitor-facing science and advanced research pavilion",
+      "footprint_source": "masterplan.json",
+      "mass": {"form": "two-storey elongated pavilion with supplied internal core retained", "floors": 2, "floor_to_floor_m": 4.2, "approx_roof_height_m": 9.5, "preserve_core": true},
+      "facade": {"character": "high-tech science and research pavilion, transparent collaboration zones within a precise white frame", "base": "pale architectural concrete plinth", "upper": "crisp white frame, graphite reveals and high-performance glazing", "glazing_ratio_visual": "high at public and collaboration areas"},
+      "roof": "flat concealed roof with deep perimeter eaves and screened equipment",
+      "entrance": {"primary": "legible glazed entrance facing the W06 connection", "secondary": "optional covered visitor drop-off, location not set"},
+      "distinctive_features": ["double-height exhibition lobby", "screened upper-level terrace suggested within footprint", "visible stair/core expressed as a solid element"],
+      "image_prompt": "H01, two-storey high-tech science research pavilion, preserve 33 by 50 metre footprint and 21 by 26 metre internal core proportions, crisp white structural frame, high-performance glass, graphite precision detailing, pine forest reserve setting like Yosemite, cool mountain daylight, no tropical plants."
+    },
+    {
+      "id": "P01",
+      "name": "Prototyping",
+      "program_character": "high-bay fabrication and prototyping workshop",
+      "footprint_source": "masterplan.json",
+      "mass": {"form": "single-storey broad workshop volume with a raised high-bay zone expressed in the roofline", "floors": 1, "floor_to_floor_m": 6.0, "approx_roof_height_m": 8.0},
+      "facade": {"character": "high-tech prototyping laboratory with a precise industrial expression", "base": "pale architectural concrete plinth", "upper": "white insulated metal panels, clear clerestory glazing and graphite details", "glazing_ratio_visual": "medium with high-level daylight"},
+      "roof": "low-slope industrial roof with raised monitor, screened rooftop plant",
+      "entrance": {"primary": "staff entrance connected to W07", "service": "wide workshop door on a short or service elevation; orientation conceptual and to be coordinated"},
+      "distinctive_features": ["high-bay monitor", "large service door", "controlled clerestory daylight"],
+      "image_prompt": "P01, single-storey high-tech prototyping research laboratory, preserve 45 by 21 metre proportions, crisp white insulated panels, pale concrete base, raised glass clerestory, precise large fabrication door, pine forest reserve campus like Yosemite, cool mountain daylight, no tropical plants."
+    },
+    {
+      "id": "S01",
+      "name": "Security control",
+      "program_character": "compact staffed security and site operations post",
+      "footprint_source": "masterplan.json",
+      "mass": {"form": "compact single-storey pavilion", "floors": 1, "floor_to_floor_m": 3.4, "approx_roof_height_m": 4.2},
+      "facade": {"character": "secure high-tech entry control pavilion with clear surveillance sightlines", "base": "pale concrete plinth", "upper": "white enclosure with insulated corner glazing and graphite frames", "glazing_ratio_visual": "high at observation corners"},
+      "roof": "flat concealed roof with modest canopy and screened equipment",
+      "entrance": {"primary": "visible controlled staff door connected to W08", "vehicle_observation": "wide glazed observation toward gate lanes and approach"},
+      "distinctive_features": ["corner observation glazing", "secure vestibule", "integrated access-control equipment", "clear sightlines to the gate"],
+      "image_prompt": "S01, advanced high-tech security control pavilion at a secure research campus, preserve exact 16 by 12 metre footprint, pure white precision architecture, panoramic clear glazing facing the approach and gate lanes, integrated access-control displays, camera system, visitor intercom, secure vestibule, slim white canopy, pine forest reserve setting like Yosemite, no tropical vegetation."
+    }
+  ],
+  "coordination_notes": [
+    "Generate each building from this brief together with its footprint geometry from masterplan.json; do not infer an unprovided site survey.",
+    "Entry sides follow the conceptual pedestrian links in V08. Confirm final door locations, loading, emergency access, egress, fire strategy and service yards with the architectural plan.",
+    "Approximate heights and floor-to-floor dimensions are visualization parameters and require architectural validation.",
+    "Use a consistent camera, sun direction, white-and-glass palette, pine forest context, security fence and gate sequence, visible parking entry/exit, and clean decorative interior landscape when producing coordinated visuals."
+  ]
+}
