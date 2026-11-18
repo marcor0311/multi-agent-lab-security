@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Alpha Site · Gemelo 3D V09</title>
+<style>
+:root{--ink:#17353c;--muted:#5f777c;--line:#d3ddda;--panel:rgba(248,250,248,.9);--cyan:#2b8993;--orange:#c2732a;--bg:#cfdde4}
+*{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--ink);font:13px/1.45 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+#viewport{position:fixed;inset:0}#viewport canvas{display:block;touch-action:none}
+.labels{position:absolute;inset:0;pointer-events:none}
+.bld-label{font:600 10px/1 Inter,system-ui,sans-serif;letter-spacing:.06em;color:var(--ink);background:rgba(252,253,251,.86);border:1px solid #b9cac8;padding:3px 6px;border-radius:3px;white-space:nowrap}
+.agent-label{font:700 10px/1 Inter,system-ui,sans-serif;color:#fff;padding:3px 6px;border-radius:10px;white-space:nowrap;box-shadow:0 1px 4px #0003}
+.ag-dog{background:#c2732a}.ag-drone{background:#23818b}
+.mk-q{font:700 10px/1 Inter,system-ui,sans-serif;color:#fff;background:#8a5420;padding:2px 5px;border-radius:3px}
+.mk-dock{font:600 9px/1 Inter,system-ui,sans-serif;color:#1d5b61;background:#e9f5f5;border:1px solid #9cc8cb;padding:2px 5px;border-radius:3px}
+.card{position:fixed;background:var(--panel);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:6px;box-shadow:0 6px 24px #1d3a4014}
+.title{top:14px;left:14px;padding:12px 15px;max-width:min(380px,calc(100vw - 28px))}
+.eyebrow{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan)}
+h1{margin:3px 0 2px;font-size:20px;font-weight:600;letter-spacing:-.4px}h1 span{color:var(--cyan)}
+.title p{margin:0;color:var(--muted);font-size:11.5px}.title a{color:var(--cyan)}
+.side{top:14px;right:14px;bottom:14px;width:318px;overflow:auto;padding:4px 14px 14px}
+.side h2{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:14px 0 7px;font-weight:600}
+.row{display:flex;flex-wrap:wrap;gap:5px}
+button{font:inherit;font-size:11.5px;color:var(--ink);background:#fff;border:1px solid #c5d3d1;border-radius:4px;padding:5px 9px;cursor:pointer}
+button:hover{border-color:var(--cyan)}button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+button:focus-visible{outline:2px solid var(--cyan);outline-offset:1px}
+.agents{display:grid;gap:6px}
+.agent{display:grid;grid-template-columns:auto 1fr auto;gap:2px 9px;align-items:center;text-align:left;padding:8px 9px;width:100%}
+.agent .id{grid-row:span 2;font-weight:700;font-size:11px;color:#fff;border-radius:4px;padding:5px 6px;min-width:42px;text-align:center}
+.agent.K9 .id{background:var(--orange)}.agent.D .id{background:#23818b}.agent.HX .id{background:#5a4fc4}
+.agent.HX .meter i{background:#6b5bd6}
+.agent b{font-weight:600;font-size:12px}.agent .st{grid-column:2/4;font-size:10.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.agent .bat{font-size:10px;color:var(--muted);font-variant-numeric:tabular-nums}
+.agent[aria-pressed=true] .st,.agent[aria-pressed=true] .bat{color:#d6e4e5}
+.meter{grid-column:1/4;height:3px;background:#dfe7e5;border-radius:2px;overflow:hidden;margin-top:4px}.meter i{display:block;height:100%;background:var(--cyan)}
+.agent.K9 .meter i{background:var(--orange)}
+.layers{display:grid;grid-template-columns:1fr 1fr;gap:4px 10px}
+.layers label{display:flex;gap:6px;align-items:center;font-size:11.5px;cursor:pointer}
+.clock{font-variant-numeric:tabular-nums;font-size:11px;color:var(--muted);margin-left:auto;align-self:center}
+.log{list-style:none;margin:0;padding:0;font-size:11px;max-height:190px;overflow:auto;border-top:1px solid var(--line)}
+.log li{padding:5px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:46px 38px 1fr;gap:6px}
+.log time{color:var(--muted);font-variant-numeric:tabular-nums}.log .who{font-weight:700}.log .K9{color:var(--orange)}.log .D{color:#23818b}
+.note{font-size:10.5px;color:var(--muted);margin-top:12px;border-top:1px solid var(--line);padding-top:9px}
+.info{left:14px;bottom:14px;padding:11px 14px;max-width:300px;display:none}
+.info.show{display:block}.info b{font-size:14px}.info p{margin:3px 0 0;color:var(--muted);font-size:11.5px}
+.info .close{position:absolute;top:6px;right:6px;padding:1px 7px;border:0;background:none;font-size:15px;color:var(--muted)}
+.follow{left:50%;transform:translateX(-50%);top:14px;padding:7px 8px 7px 13px;display:none;align-items:center;gap:10px;font-size:12px}
+.follow.show{display:flex}
+.ag-hx{background:#5a4fc4}.ag-heli{background:#1f2f4a}.ag-hostile{background:#b3261e}
+.ag-unit{background:#15191c;border:1px solid #ff4040}.ag-bomberos{background:#b3221b;border-color:#fff}.ag-ambulancia{background:#f2f3f1;color:#b3221b;border-color:#b3221b}.ag-eod{background:#4d5a3a;border-color:#ffb020}.ag-policia{background:#22324f;border-color:#3a6bff}
+.face-tag.med{background:#2f6fd0}
+.face-tag{font:700 9.5px/1 Inter,system-ui,sans-serif;color:#fff;padding:3px 6px;border-radius:3px;white-space:nowrap;box-shadow:0 1px 4px #0004}
+.face-tag.ok{background:#1f9d62}.face-tag.bad{background:#d63031}
+body.no-faces .face-tag{display:none}
+button.danger{background:#b3261e;color:#fff;border-color:#b3261e;font-weight:600}button.danger:hover{background:#8f1d17;border-color:#8f1d17}
+.scen{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.scen button{text-align:left;padding:7px 8px;display:grid;gap:2px;align-content:start}
+.scen b{font-size:11.5px;font-weight:600}.scen small{font-size:10px;color:var(--muted);line-height:1.25}
+.scen button[aria-pressed=true]{background:#b3261e;border-color:#b3261e;color:#fff}.scen button[aria-pressed=true] small{color:#fde2df}
+.scen button:disabled:not([aria-pressed=true]){opacity:.5;cursor:default}
+body.covert .alert-banner{display:block;border-color:#e3c27a;background:rgba(255,250,238,.95)}
+body.covert .ab-head{color:#8a5a00}
+select{font:inherit;font-size:11.5px;color:var(--ink);background:#fff;border:1px solid #c5d3d1;border-radius:4px;padding:5px 6px;min-width:0}
+#threat{width:100%;margin-top:6px;padding:7px 10px}#threat:disabled{opacity:.45;cursor:default}
+.ai{display:grid;gap:6px;font-size:11.5px}.ai label{display:grid;grid-template-columns:52px 1fr;align-items:center;gap:6px}
+.ai-status{display:flex;gap:7px;align-items:flex-start;color:var(--muted);font-size:11px}.ai-status i{width:8px;height:8px;border-radius:50%;background:#b8c4c2;margin-top:4px;flex:none}
+.ai-status i.ok{background:#1f9d62}.ai-status i.busy{background:#e0a020}
+.radio{list-style:none;margin:0;padding:0;font-size:11px;max-height:230px;overflow:auto;border-top:1px solid var(--line)}
+.radio li{padding:5px 0;border-bottom:1px solid var(--line)}
+.radio .hd{display:flex;gap:6px;align-items:baseline;color:var(--muted);font-size:10px}.radio .hd b{color:var(--ink);font-size:10.5px}
+.radio .src{margin-left:auto;font-size:9px;letter-spacing:.06em;text-transform:uppercase;border-radius:3px;padding:1px 4px;background:#e7ecea}
+.radio .src.ai{background:#e9e4ff;color:#4a3fb0}
+.radio p{margin:2px 0 0}
+.alert-banner{left:50%;transform:translateX(-50%);top:14px;padding:10px 13px;width:min(430px,calc(100vw - 360px));min-width:280px;border-color:#e28b86;background:rgba(255,246,245,.94);display:none}
+body.alert .alert-banner{display:block}
+.ab-head{display:flex;justify-content:space-between;gap:10px;align-items:baseline;color:#a1221b;font-size:13px}
+.ab-head b{letter-spacing:.04em}.ab-head span{font-variant-numeric:tabular-nums;font-size:12px}
+.alert-banner dl{display:grid;grid-template-columns:62px 1fr;gap:3px 8px;margin:8px 0;font-size:11.5px}
+.alert-banner dt{font-weight:700;color:#5d2a27}.alert-banner dd{margin:0;color:#3c2a29}
+body.alert .follow{top:178px}
+body.alert::after{content:'';position:fixed;inset:0;pointer-events:none;box-shadow:inset 0 0 140px 24px rgba(230,30,30,.32);animation:alertPulse 1.1s ease-in-out infinite alternate}
+@keyframes alertPulse{from{opacity:.35}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){body.alert::after{animation:none}}
+.log li.alert{background:#fdeceb}.log li.alert span:last-child{color:#8f1d17;font-weight:600}
+.log .HX{color:#5a4fc4}.log .EXT{color:#15191c}.log .AI{color:#4a3fb0}
+.error{position:fixed;inset:0;display:none;place-items:center;text-align:center;padding:30px;color:var(--ink)}
+@media (max-width:760px){
+  .alert-banner{width:auto;left:8px;right:8px;transform:none;top:70px}
+  body.alert .follow{top:auto}
+  .title{padding:9px 12px;right:14px}.title h1{font-size:16px}.title p{display:none}
+  .side{top:auto;left:8px;right:8px;bottom:8px;width:auto;max-height:44vh}
+  .info{bottom:calc(44vh + 16px);left:8px}
+  .follow{top:auto;bottom:calc(44vh + 16px)}
+}
+</style></head>
+<body>
+<div id="viewport" aria-label="Vista 3D del campus Alpha Site con agentes de seguridad"></div>
+
+<header class="card title">
+  <div class="eyebrow">Alpha Site · V09 / 02A · seguridad multiagente</div>
+  <h1>Gemelo 3D <span>/</span> campus y patrulla</h1>
+  <p>Generado desde <code>masterplan-data.js</code>. Alturas según la guía arquitectónica. Arrastra para orbitar, rueda para acercar, clic en un edificio o agente. · <a href="masterplan_2d.html">Plano 2D</a> · <a href="brochure/index.html">Folleto</a></p>
+</header>
+
+<div class="card alert-banner" id="alert" role="alert">
+  <div class="ab-head"><b id="ab-title">⚠ ALERTA</b><span id="ab-time"></span></div>
+  <dl id="ab-lines"></dl>
+  <div class="row"><button id="ab-view">Ver incidente</button><button id="ab-follow">Seguir sospechoso</button><button id="ab-end" class="danger">Finalizar incidente</button></div>
+</div>
+
+<div class="card follow" id="follow"><span>Siguiendo <b id="follow-name"></b></span><button id="follow-stop">Vista libre</button></div>
+
+<aside class="card side" aria-label="Controles">
+  <h2>Vistas</h2>
+  <div class="row" id="views"></div>
+
+  <h2>Agentes autónomos</h2>
+  <div class="agents" id="agents"></div>
+
+  <h2>Simulación</h2>
+  <div class="row">
+    <button id="play" aria-pressed="false">Pausa</button>
+    <button data-speed="1">×1</button><button data-speed="4" aria-pressed="true">×4</button><button data-speed="12">×12</button>
+    <span class="clock" id="clock">T+00:00</span>
+  </div>
+  <div class="row" style="margin-top:6px">
+    <button id="night" aria-pressed="false">Hora azul</button>
+    <button id="scale" aria-pressed="true">Agentes ×3 (legible)</button>
+  </div>
+
+  <h2>Simular amenaza de seguridad</h2>
+  <div class="scen" id="scenarios" role="group" aria-label="Escenarios de amenaza"></div>
+  <button id="threat" class="danger" disabled>Finalizar escenario</button>
+
+  <h2>Capas</h2>
+  <div class="layers" id="layers"></div>
+
+  <h2>IA local · comunicación entre agentes</h2>
+  <div class="ai">
+    <label>Motor <select id="ai-engine"><option value="ollama">Ollama local</option><option value="rules">Solo reglas</option></select></label>
+    <label>Modelo <select id="ai-model"></select></label>
+    <div class="ai-status"><i id="ai-dot"></i><span id="ai-text">Comprobando…</span></div>
+    <button id="ai-test">Probar conexión</button>
+  </div>
+
+  <h2>Radio entre agentes</h2>
+  <ul class="radio" id="radio" aria-live="polite"></ul>
+
+  <h2>Registro de eventos</h2>
+  <ul class="log" id="log" aria-live="polite"></ul>
+
+  <p class="note">Simulación conceptual. K9, drones y humanoides HX (sin armas) patrullan, verifican rostros contra la lista de personal (identidades ficticias) y reportan a S01; el operador humano autoriza accesos, retenciones y respuestas. La IA local (Ollama) solo propone y redacta la radio; las reglas garantizan la cobertura mínima. Escenarios, SWAT, helicóptero y servicios externos son ilustrativos, con ETA de minutos, y requieren protocolos, base legal y normativa locales.</p>
+</aside>
+
+<div class="card info" id="info" role="dialog" aria-live="polite"><button class="close" id="info-close" aria-label="Cerrar">×</button><div id="info-body"></div></div>
+<div class="error" id="error"><div><h1>No se pudo iniciar la vista 3D</h1><p id="error-msg">Se necesita WebGL y conexión para cargar three.js.</p></div></div>
+
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script src="masterplan-data.js"></script>
+<script src="masterplan-3d.js"></script>
+<script src="security-agents-3d.js"></script>
+<script src="campus-life-3d.js"></script>
+<script src="agent-comms-ai.js"></script>
+<script src="incidents-3d.js"></script>
+<script>
+  window.addEventListener('error', e => {
+    document.getElementById('error').style.display = 'grid';
+    document.getElementById('error-msg').textContent = e.message || 'Error al cargar los módulos 3D.';
+  });
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
+
+const D = window.ALPHA_MASTERPLAN;
+const host = document.getElementById('viewport');
+const $ = id => document.getElementById(id);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: false });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(innerWidth, innerHeight);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+host.append(renderer.domElement);
+const labelRenderer = new CSS2DRenderer();
+labelRenderer.setSize(innerWidth, innerHeight);
+labelRenderer.domElement.className = 'labels';
+host.append(labelRenderer.domElement);
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(42, innerWidth / innerHeight, 1, 3200);
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true; controls.dampingFactor = .08;
+controls.maxPolarAngle = Math.PI * .47; controls.minDistance = 6; controls.maxDistance = 900;
+
+// ---------- lights and atmosphere
+const hemi = new THREE.HemisphereLight('#e3edf2', '#5d6b52', 1.1); scene.add(hemi);
+const sun = new THREE.DirectionalLight('#fff6e8', 2.4);
+sun.position.set(-130, 210, 150);
+sun.castShadow = true;
+sun.shadow.mapSize.set(4096, 4096);
+Object.assign(sun.shadow.camera, { left: -170, right: 170, top: 130, bottom: -130, near: 20, far: 700 });
+sun.shadow.bias = -.0004; sun.shadow.normalBias = .04;
+scene.add(sun, sun.target);
+const ATMOS = {
+  day: { bg: '#cbdbe3', fog: '#cbdbe3', hemi: ['#e3edf2', '#5d6b52', 1.1], sun: ['#fff6e8', 2.4], exposure: 1 },
+  night: { bg: '#15233a', fog: '#15233a', hemi: ['#4a6290', '#0e1418', .55], sun: ['#9db4ff', .45], exposure: 1.15 }
+};
+scene.fog = new THREE.Fog(ATMOS.day.fog, 420, 1500);
+
+// ---------- campus + agents
+const campus = window.buildAlphaCampus3D(THREE, D);
+scene.add(campus.root);
+const LOG_MAX = 120;
+let simTime = 0;
+const addEvent = ({ agent, kind, text, alert }) => {
+  const li = document.createElement('li');
+  if (alert) li.className = 'alert';
+  li.innerHTML = `<time>${fmt(simTime)}</time><span class="who ${kind}"></span><span></span>`;
+  li.children[1].textContent = agent; li.children[2].textContent = text;
+  $('log').prepend(li);
+  while ($('log').children.length > LOG_MAX) $('log').lastChild.remove();
+};
+const sec = window.createAlphaSecurityAgents(THREE, { D, campus, CSS2DObject, onEvent: addEvent });
+scene.add(sec.root, sec.sensors, sec.routes, sec.markers);
+sec.setScale(3);
+const life = window.createAlphaCampusLife(THREE, { D, campus, CSS2DObject, agents: sec.agents, onEvent: addEvent });
+scene.add(life.root, life.fx);
+// ---------- local AI + radio
+const RADIO_MAX = 60;
+const addRadio = ({ from, to, text, source }) => {
+  const li = document.createElement('li');
+  li.innerHTML = `<div class="hd"><time></time><b></b><span class="src"></span></div><p></p>`;
+  li.querySelector('time').textContent = fmt(simTime);
+  li.querySelector('b').textContent = `${from} → ${to}`;
+  const src = li.querySelector('.src'); src.textContent = source === 'IA local' ? 'IA' : 'reglas'; if (source === 'IA local') src.classList.add('ai');
+  li.querySelector('p').textContent = text;
+  $('radio').prepend(li);
+  while ($('radio').children.length > RADIO_MAX) $('radio').lastChild.remove();
+};
+const renderAI = st => {
+  $('ai-engine').value = st.engine;
+  $('ai-dot').className = st.busy ? 'busy' : st.ok ? 'ok' : '';
+  $('ai-text').textContent = st.ok && st.calls ? `${st.text} · ${st.calls} respuestas · ${st.avg.toFixed(1)} s${st.queue ? ` · cola ${st.queue}` : ''}` : st.text;
+  const sel = $('ai-model');
+  if (sel.options.length !== st.models.length) sel.replaceChildren(...st.models.map(m => new Option(m, m)));
+  sel.value = st.model; sel.disabled = st.engine !== 'ollama' || !st.models.length;
+};
+const comms = window.createAlphaComms({ onStatus: renderAI });
+$('ai-engine').onchange = e => comms.setEngine(e.target.value);
+$('ai-model').onchange = e => comms.setModel(e.target.value);
+$('ai-test').onclick = () => comms.probe();
+comms.probe();
+
+const threat = window.createAlphaIncidents(THREE, { D, campus, CSS2DObject, sec, life, comms, onEvent: addEvent, onRadio: addRadio,
+  onState: (st, info) => {
+    document.body.classList.toggle('alert', st === 'alert');
+    document.body.classList.toggle('covert', st === 'covert');
+    const on = st !== 'normal';
+    $('threat').disabled = !on;
+    document.querySelectorAll('#scenarios button').forEach(b => {
+      b.disabled = on;
+      b.setAttribute('aria-pressed', String(on && !!info && b.dataset.key === info.key));
+    });
+    if (on) renderAlert();
+    if (!on && follow && follow.kind === 'P') stopFollow();
+  } });
+scene.add(threat.root);
+for (const sc of threat.scenarios) {
+  const b = document.createElement('button');
+  b.dataset.key = sc.key; b.title = sc.desc; b.setAttribute('aria-pressed', 'false');
+  b.innerHTML = '<b></b><small></small>';
+  b.querySelector('b').textContent = `${sc.icon} ${sc.title}`;
+  b.querySelector('small').textContent = `Detección: ${sc.detection}`;
+  b.onclick = () => { if (!threat.active && threat.start(sc.key)) viewThreat(); };
+  $('scenarios').append(b);
+}
+
+const bldLabels = new THREE.Group(); scene.add(bldLabels);
+for (const l of campus.labels) {
+  const el = document.createElement('div'); el.className = 'bld-label'; el.textContent = l.id;
+  const o = new CSS2DObject(el); o.position.copy(l.position); bldLabels.add(o);
+}
+
+// ---------- views
+const V = (x, y, z) => new THREE.Vector3(x, y, z);
+const P = (x, y, z = 0) => campus.toWorld(x, y, z);
+const VIEWS = [
+  ['Aérea', V(185, 150, 255), V(30, 0, 0)],
+  ['Acceso G01', P(126, -40, 22), P(136, 14, 2)],
+  ['Plaza y A01', P(150, 12, 32), P(137, 76, 4)],
+  ['Laboratorios', P(118, 56, 36), P(66, 96, 3)],
+  ['Calle de acceso', P(150, -175, 34), P(131, -10, 2)],
+  ['Cenital', V(0, 330, 1), V(0, 0, 0)]
+];
+let tween = null;
+const flyTo = (pos, target, dur = 1.5) => {
+  tween = { p0: camera.position.clone(), t0: controls.target.clone(), p1: pos.clone(), t1: target.clone(), k: 0, dur };
+};
+controls.addEventListener('start', () => { tween = null; });
+for (const [name, pos, target] of VIEWS) {
+  const b = document.createElement('button'); b.textContent = name;
+  b.onclick = () => { stopFollow(); flyTo(pos, target); };
+  $('views').append(b);
+}
+camera.position.copy(VIEWS[0][1]); controls.target.copy(VIEWS[0][2]);
+
+// ---------- agent cards + follow mode
+let follow = null;
+const cards = new Map();
+for (const a of sec.agents) {
+  const b = document.createElement('button');
+  b.className = `agent ${a.kind}`; b.setAttribute('aria-pressed', 'false');
+  b.innerHTML = `<span class="id"></span><b></b><span class="bat"></span><span class="st"></span><span class="meter"><i></i></span>`;
+  b.querySelector('.id').textContent = a.id; b.querySelector('b').textContent = a.name;
+  b.onclick = () => (follow === a ? stopFollow() : startFollow(a));
+  $('agents').append(b); cards.set(a, b);
+}
+const tmp = new THREE.Vector3();
+function startFollow(a) {
+  follow = a;
+  a.group.getWorldPosition(tmp);
+  const off = a.kind === 'D' ? V(-22, 14, 26) : V(-11, 8, 14);
+  flyTo(tmp.clone().add(off), tmp.clone(), 1.2);
+  cards.forEach((b, k) => b.setAttribute('aria-pressed', String(k === a)));
+  $('follow-name').textContent = `${a.id} · ${a.name}`; $('follow').classList.add('show');
+}
+function stopFollow() {
+  follow = null; cards.forEach(b => b.setAttribute('aria-pressed', 'false')); $('follow').classList.remove('show');
+}
+$('follow-stop').onclick = stopFollow;
+addEventListener('keydown', e => { if (e.key === 'Escape') { stopFollow(); $('info').classList.remove('show'); } });
+
+// ---------- simulation controls
+let speed = 4, paused = false, night = false;
+$('play').onclick = () => { paused = !paused; $('play').textContent = paused ? 'Reanudar' : 'Pausa'; $('play').setAttribute('aria-pressed', String(paused)); };
+document.querySelectorAll('[data-speed]').forEach(b => b.onclick = () => {
+  speed = +b.dataset.speed;
+  document.querySelectorAll('[data-speed]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+});
+const setNight = n => {
+  night = n; const A = n ? ATMOS.night : ATMOS.day;
+  scene.background = new THREE.Color(A.bg); scene.fog.color.set(A.fog);
+  hemi.color.set(A.hemi[0]); hemi.groundColor.set(A.hemi[1]); hemi.intensity = A.hemi[2];
+  sun.color.set(A.sun[0]); sun.intensity = A.sun[1]; renderer.toneMappingExposure = A.exposure;
+  campus.setNight(n); sec.setNight(n); life.setNight(n);
+  $('night').setAttribute('aria-pressed', String(n)); $('night').textContent = n ? 'Día' : 'Hora azul';
+  document.body.style.background = A.bg;
+};
+$('night').onclick = () => setNight(!night);
+setNight(false);
+$('scale').onclick = () => {
+  const s = sec.scale === 3 ? 1 : 3; sec.setScale(s); life.setScale(s); threat.setScale(s);
+  $('scale').setAttribute('aria-pressed', String(s === 3));
+  $('scale').textContent = s === 3 ? 'Agentes ×3 (legible)' : 'Agentes a escala real';
+};
+
+// ---------- layers
+const LAYERS = [
+  ['Agentes', [sec.root], true], ['Sensores', [sec.sensors], true],
+  ['Rutas', [sec.routes], true], ['Puntos Q y bases', [sec.markers], true],
+  ['Personas y vehículos', [life.root], true], ['Reconocimiento facial', [life.fx], true],
+  ['Bosque', [campus.layers.forest, campus.layers.sierra], true], ['Etiquetas', [bldLabels], true]
+];
+for (const [name, objs, on] of LAYERS) {
+  const l = document.createElement('label');
+  l.innerHTML = `<input type="checkbox" ${on ? 'checked' : ''}><span></span>`; l.lastChild.textContent = name;
+  l.firstChild.onchange = e => {
+    objs.forEach(o => { o.visible = e.target.checked; });
+    if (name === 'Etiquetas') labelRenderer.domElement.style.display = e.target.checked ? '' : 'none';
+    if (name === 'Reconocimiento facial') document.body.classList.toggle('no-faces', !e.target.checked);
+  };
+  $('layers').append(l);
+}
+
+// ---------- picking (click without drag)
+const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
+const BLD = {
+  A01: 'Sede cívica + I+D · atrio central', L01: 'Laboratorio · módulo repetido', L02: 'Laboratorio · módulo repetido',
+  L03: 'Laboratorio · módulo repetido', L04: 'Apoyo técnico y recepción', H01: 'Investigación avanzada · pabellón científico',
+  P01: 'Prototipado · nave alta', S01: 'Estación integrada de seguridad · base de drones y K9'
+};
+let down = null;
+renderer.domElement.addEventListener('pointerdown', e => { down = [e.clientX, e.clientY]; });
+renderer.domElement.addEventListener('pointerup', e => {
+  if (!down || Math.hypot(e.clientX - down[0], e.clientY - down[1]) > 5) return;
+  ndc.set(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1);
+  ray.setFromCamera(ndc, camera);
+  const targets = [...(sec.root.visible ? sec.agents.map(a => a.group) : []), ...campus.pickables];
+  const hit = ray.intersectObjects(targets, true)[0];
+  if (!hit) return;
+  let o = hit.object;
+  while (o && !o.userData.building && !sec.agents.some(a => a.group === o)) o = o.parent;
+  if (!o) return;
+  const agent = sec.agents.find(a => a.group === o);
+  if (agent) return startFollow(agent);
+  const b = o.userData.building, h = campus.heights[b.id];
+  $('info-body').innerHTML = `<b></b><p></p><p></p>`;
+  const [t, p1, p2] = $('info-body').children;
+  t.textContent = `${b.id} · ${b.name}`; p1.textContent = BLD[b.id] || '';
+  p2.textContent = `${b.width} × ${b.depth} m · ${b.floors} ${b.floors === 1 ? 'nivel' : 'niveles'} · ≈ ${h} m de altura · ${(b.width * b.depth).toLocaleString('es')} m² de huella`;
+  $('info').classList.add('show');
+});
+$('info-close').onclick = () => $('info').classList.remove('show');
+
+// ---------- threat simulation
+const viewThreat = () => {
+  const t = threat.target(); if (!t) return;
+  stopFollow(); flyTo(P(t.x + 35, t.y - 70, 60), P(t.x, t.y, 0), 1.6);
+};
+$('threat').onclick = () => threat.finish('manual');
+$('ab-end').onclick = () => threat.finish('manual');
+$('ab-view').onclick = viewThreat;
+$('ab-follow').onclick = () => {
+  const g = threat.followTarget(); if (!g) return viewThreat();
+  startFollow({ group: g, kind: 'P', id: 'Sospechoso', name: 'no registrado' });
+};
+const renderAlert = () => {
+  const st = threat.status(); if (!st) return;
+  $('ab-title').textContent = st.detected ? `${st.icon} ALERTA · ${st.title}${st.where ? ` · ${st.where}` : ''}` : `🕵 ${st.title} · sin detectar (vista de simulador)`;
+  $('ab-time').textContent = `T+${st.elapsed}`;
+  $('ab-lines').replaceChildren(...st.lines.flatMap(([k, v]) => {
+    const dt = document.createElement('dt'), dd = document.createElement('dd');
+    dt.textContent = k; dd.textContent = v; return [dt, dd];
+  }));
+};
+
+// ---------- loop
+function fmt(t) { const m = Math.floor(t / 60), s = Math.floor(t % 60); return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`; }
+const ease = k => k < .5 ? 2 * k * k : 1 - (-2 * k + 2) ** 2 / 2;
+const clock = new THREE.Clock();
+let uiTimer = 0;
+function frame() {
+  const dt = Math.min(clock.getDelta(), .05);
+  const simDt = paused ? 0 : dt * speed;
+  simTime += simDt;
+  sec.update(simDt, dt);
+  life.update(simDt, dt, simTime);
+  threat.update(simDt, dt);
+  if (follow) {
+    follow.group.getWorldPosition(tmp);
+    if (tween) { tween.t1.copy(tmp); }
+    else { const d = tmp.clone().sub(controls.target); controls.target.add(d); camera.position.add(d); }
+  }
+  if (tween) {
+    tween.k = Math.min(1, tween.k + dt / tween.dur);
+    const k = ease(tween.k);
+    camera.position.lerpVectors(tween.p0, tween.p1, k);
+    controls.target.lerpVectors(tween.t0, tween.t1, k);
+    if (tween.k >= 1) tween = null;
+  }
+  controls.update();
+  renderer.render(scene, camera);
+  labelRenderer.render(scene, camera);
+  if ((uiTimer -= dt) <= 0) {
+    uiTimer = .25;
+    $('clock').textContent = `T+${fmt(simTime)}`;
+    if (threat.active) renderAlert();
+    for (const [a, b] of cards) {
+      const extra = a.kind === 'D' ? ` · ${Math.round(a.pos.z)} m` : '';
+      b.querySelector('.st').textContent = a.state;
+      b.querySelector('.bat').textContent = `${Math.round(a.battery)} %${extra}`;
+      b.querySelector('.meter i').style.width = `${Math.max(0, Math.min(100, a.battery))}%`;
+    }
+  }
+  requestAnimationFrame(frame);
+}
+addEventListener('resize', () => {
+  camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight); labelRenderer.setSize(innerWidth, innerHeight);
+});
+addEvent({ agent: 'S01', kind: '', text: 'Turno iniciado · 3 K9, 2 drones y 2 humanoides HX en línea · verificación facial activa' });
+
+// Shareable state: ?view=<1-5>&follow=<agent id>&night=1&t=<seconds to pre-simulate>
+const q = new URLSearchParams(location.search);
+if (q.get('night') === '1') setNight(true);
+const pre = Math.min(+q.get('t') || 0, 3600);
+for (let s = 0; s < pre; s += .5) { simTime += .5; sec.update(.5, .016); life.update(.5, .016, simTime); threat.update(.5, .016); }
+if (q.get('threat')) {
+  threat.start(q.get('threat') === '1' ? 'intrusion' : q.get('threat'));
+  const tt = Math.min(+q.get('tt') || 0, 600);
+  for (let s = 0; s < tt; s += .25) { simTime += .25; sec.update(.25, .016); life.update(.25, .016, simTime); threat.update(.25, .016); }
+  const t0 = threat.target();
+  if (t0) { camera.position.copy(P(t0.x + 35, t0.y - 70, 60)); controls.target.copy(P(t0.x, t0.y, 0)); }
+}
+const view = VIEWS[(+q.get('view') || 0) - 1];
+if (view) { camera.position.copy(view[1]); controls.target.copy(view[2]); }
+const fa = sec.agents.find(a => a.id === q.get('follow'));
+if (fa) {
+  startFollow(fa); tween = null;
+  fa.group.getWorldPosition(tmp);
+  controls.target.copy(tmp);
+  camera.position.copy(tmp).add(fa.kind === 'D' ? V(-22, 14, 26) : V(-9, 5, 11));
+}
+frame();
+</script>
+</body></html>
